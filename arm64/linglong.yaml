@@ -1,0 +1,38 @@
+version: "1"
+
+package:
+  id: com.pcfreetime.formatfactory.deepin
+  name: com.pcfreetime.formatfactory.deepin
+  version: 1.0.0.0
+  kind: app
+  description: |
+    convert from com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb
+
+base: org.deepin.base.wine/23.0.0/arm64
+runtime: org.deepin.runtime.wine/23.0.0/arm64
+
+command:
+  - /opt/apps/com.pcfreetime.formatfactory.deepin/files/run.sh
+
+sources:
+  - kind: file
+    url: https://aptly.uniontech.com/pkg/nonfree-eagle/release-candidate/d2luZTgtcnVudGltZTIyMDI0LTA5LTAzIDEzOjE1OjAx/pool/non-free/c/com.pcfreetime.formatfactory.deepin/com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb
+    digest: 55d70588c4398aa859985f0f8aa21761e8f1a1e789c7bcd99beaf5c2a7b00ff5
+
+build: |
+  set -x
+  SOURCES="linglong/sources"
+  dpkg-deb -x $SOURCES/com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb $SOURCES/com.pcfreetime.formatfactory.deepin
+  # run.sh替换
+  FILE_PATH="$SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/files/run.sh" 
+  sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
+         -e 's|/opt/deepin-wine6-stable|/runtime/deepin-wine6-stable|g' \
+         -e 's|/opt/deepinwine|/runtime/deepinwine|g' \
+         -e 's|/opt/deepin-box86|/runtime/deepin-box86|g' \
+         -e 's|BOTTLEPATH="$HOME/.deepinwine/$BOTTLENAME"|BOTTLEPATH="$HOME/.linglong/$BOTTLENAME"|g' "$FILE_PATH"
+   
+  install -d $PREFIX/share
+  install -d $PREFIX/bin
+  # move files
+  cp -r $SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/entries/* $PREFIX/share
+  cp -r $SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/files/* $PREFIX
