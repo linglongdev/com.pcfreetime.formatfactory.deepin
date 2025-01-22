@@ -3,29 +3,26 @@ version: "1"
 package:
   id: com.pcfreetime.formatfactory.deepin
   name: com.pcfreetime.formatfactory.deepin
-  version: 1.0.0.2
+  version: 1.0.0.0
   kind: app
   description: |
-    signed_com.pcfreetime.formatfactory.deepin_4.9.5deepin10_amd64.deb
+    convert from com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb
 
-base: org.deepin.base.wine/23.2.0
-runtime: org.deepin.runtime.wine/23.2.1
-
+base: org.deepin.base.wine/23.0.0/arm64
+runtime: org.deepin.runtime.wine/23.0.0/arm64
 
 command:
   - /opt/apps/com.pcfreetime.formatfactory.deepin/files/run.sh
 
 sources:
   - kind: file
-    url: https://winedata-dev.deepin.com/apps/com.pcfreetime.formatfactory.deepin/a5644ef/signed_com.pcfreetime.formatfactory.deepin_4.9.5deepin10_amd64.deb
-    digest: ec07905baae1409c0fc33fb67e034ff23c3d08e39de39f15107a26c615ecd499
-
+    url: https://aptly.uniontech.com/pkg/nonfree-eagle/release-candidate/d2luZTgtcnVudGltZTIyMDI0LTA5LTAzIDEzOjE1OjAx/pool/non-free/c/com.pcfreetime.formatfactory.deepin/com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb
+    digest: 55d70588c4398aa859985f0f8aa21761e8f1a1e789c7bcd99beaf5c2a7b00ff5
 
 build: |
   set -x
   SOURCES="linglong/sources"
-  dpkg-deb -x $SOURCES/signed_com.pcfreetime.formatfactory.deepin_4.9.5deepin10_amd64.deb $SOURCES/com.pcfreetime.formatfactory.deepin
-
+  dpkg-deb -x $SOURCES/com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb $SOURCES/com.pcfreetime.formatfactory.deepin
   # run.sh替换
   FILE_PATH="$SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/files/run.sh" 
   sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
@@ -39,4 +36,3 @@ build: |
   # move files
   cp -r $SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/entries/* $PREFIX/share
   cp -r $SOURCES/com.pcfreetime.formatfactory.deepin/opt/apps/com.pcfreetime.formatfactory.deepin/files/* $PREFIX
-  
