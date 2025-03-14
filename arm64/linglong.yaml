@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.pcfreetime.formatfactory.deepin
   name: com.pcfreetime.formatfactory.deepin
-  version: 1.0.0.0
+  version: 1.0.0.3
   kind: app
   description: |
     convert from com.pcfreetime.formatfactory.deepin_4.9.5deepin9_arm64.deb
